@@ -7,7 +7,7 @@ export function parseCSV(file: File): Promise<SensorReading[]> {
       header: true,
       dynamicTyping: true,
       skipEmptyLines: true,
-      complete: (results) => {
+      complete: (results: Papa.ParseResult<any>) => {
         const readings: SensorReading[] = results.data.map((row: any) => {
           // Flexible timestamp mapping
           const timeStr = row.Timestamp || row.timestamp || row.Date || row.time;
@@ -21,11 +21,11 @@ export function parseCSV(file: File): Promise<SensorReading[]> {
             voc: row['VOC'] || row.voc || row.VOC,
             ...row
           };
-        }).filter(r => !isNaN(r.timestamp.getTime()));
+        }).filter((r: SensorReading) => !isNaN(r.timestamp.getTime()));
         
         resolve(readings.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime()));
       },
-      error: reject
+      error: (error: Error) => reject(error)
     });
   });
 }

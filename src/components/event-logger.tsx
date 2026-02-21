@@ -14,7 +14,7 @@ interface EventLoggerProps {
   dataRange: { min: Date; max: Date } | null;
 }
 
-export const EventLogger: React.FC<EventLoggerProps> = ({ events, onAddEvent, onRemoveEvent, dataRange }) => {
+export const EventLogger: React.FC<EventLoggerProps> = ({ events, onAddEvent, onRemoveEvent }) => {
   const [label, setLabel] = useState('');
   const [timestamp, setTimestamp] = useState('');
 
